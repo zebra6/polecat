@@ -74,11 +74,26 @@ void run_tests( void )
 	}
 	cout << endl;
 
-	print_bytes_bin( &j, sizeof(j) );
+	cout << "rounding down power of two test:" << endl;
+	for( i = -8; i < 514; i += 18 )
+	{
+		cout << i << ": " << round_down_power_two( i ) << endl;
+	}
+	cout << endl;
+
+	cout << "rounding up power of two test:" << endl;
+	for( i = -8; i < 514; i += 18 )
+	{
+		cout << i << ": " << round_up_power_two( i ) << endl;
+	}
+	cout << endl;
+
+/*	print_bytes_bin( &j, sizeof(j) );
 	cout << endl;
 	j += 1;
 	print_bytes_bin( &j, sizeof(j) );
-	cout << endl;
+	cout << endl;*/
+
 
 	return;
 }
@@ -158,6 +173,39 @@ used because rounding up on a boundary should yeild the number in question
 int round_up_mul_eight( int val )
 {
 	return ( ( val + 7 ) & -8 );
+}
+
+
+/******************************************************************************
+func: this function works by setting the highest bit to zero (0x800...) and
+shifting right until this value is immediatley below the input value
+ *****************************************************************************/
+int round_down_power_two( int val )
+{
+	int x = INT_MAX + 1;
+
+	while( (unsigned)x > val )
+		x = (unsigned)x >> 1;
+
+	return x;
+}
+
+
+/******************************************************************************
+func: this function works similar to above but we just shift until we are
+greater than
+ *****************************************************************************/
+int round_up_power_two( int val )
+{
+	int x = 1;
+
+	if( val < 0 )
+		val -= 2*val;
+
+	while( (unsigned)x < val )
+		x *= 2;
+
+	return x;
 }
 
 

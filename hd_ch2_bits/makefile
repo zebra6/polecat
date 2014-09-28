@@ -3,10 +3,12 @@ CC			= clang
 CPP			= clang++
 CFLAGS		= -g3 \
 			  -Wall \
-			  -Wno-write-strings
+			  -Wno-write-strings \
+			  -Wno-integer-overflow
 CPPFLAGS	= -g3 \
 			  -Wall \
-			  -Wno-write-strings
+			  -Wno-write-strings \
+ 			  -Wno-integer-overflow
 SLIBS		= 
 DLIBS		= 
 
