@@ -1,0 +1,87 @@
+/*
+   Given an array A[] consisting 0s, 1s and 2s, write a function that sorts A[].
+   The functions should put all 0s first, then all 1s and all 2s in last.
+
+   Example Input = {0, 1, 1, 0, 1, 2, 1, 2, 0, 0, 0, 1}; Output = {0, 0, 0, 0,
+   0, 1, 1, 1, 1, 1, 2, 2}
+
+   The problem is similar to our old post Segregate 0s and 1s in an array, and
+   both of these problems are variation of famous Dutch national flag problem.
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MAX 16
+
+void swap( int* a, int* b );
+void dflag( int* ar, int sz );
+
+int main( int argc, char** argv )
+{
+	int i = 0;
+	int ar[MAX] = { 0 };
+
+	srand(time(NULL));
+
+	printf( "array before: " );
+	for( i = 0; i < MAX; i ++ )
+	{
+		ar[i] = rand() % 3;
+		printf( "%i ", ar[i] );
+	}
+
+	dflag( ar, MAX );
+
+	printf( "\narray after:  " );
+	for( i = 0; i < MAX; i ++ )
+		printf( "%i ", ar[i] );
+
+	printf( "\n" );
+
+	return 0;
+}
+
+
+void swap( int* a, int* b )
+{
+	int tmp = *a;
+	*a = *b;
+	*b = tmp;
+	return;
+}
+
+
+void dflag( int* ar, int sz )
+{
+	int low = 0;
+	int mid = 0;
+	int high = sz - 1;
+
+	/*basically we maintain an undefined region of the array that is constantly
+	 * shrinking (in the middle) so we switch on mid*/
+
+	while( mid <= high )
+	{
+		switch( ar[mid] )
+		{
+			case 0:
+				swap( ar + low, ar + mid );
+				low++;
+				mid++;
+				break;
+
+			case 1:
+				mid++;
+				break;
+
+			case 2:
+				swap( ar + mid, ar + high );
+				high--;
+				break;
+		}
+	}
+
+	return;
+}
