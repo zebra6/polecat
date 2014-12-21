@@ -1,0 +1,6 @@
+!.gitignore
+tags
+*.o
+a.out
+
+
