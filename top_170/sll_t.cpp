@@ -2,9 +2,14 @@
 #include <stdlib.h>
 #include "sll_t.h"
 
+/*
+   void sll_t_print( sll_t* head );
+   short sll_t_exists( sll_t* head, int val );
+   void sll_t_insert( sll_t** head, int val );
+   int sll_t_remove( sll_t** head, int val );
+   void sll_t_remove_all( sll_t** head );
+ */
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_print( sll_t* head )
 {
 	sll_t* tmp = head;
@@ -35,8 +40,6 @@ void sll_t_print( sll_t* head )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 short sll_t_exists( sll_t* head, int val )
 {
 	while( head )
@@ -51,8 +54,6 @@ short sll_t_exists( sll_t* head, int val )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_insert( sll_t** head, int val )
 {
 	sll_t* new_node = (sll_t*)calloc( 1, sizeof(*new_node) );
@@ -71,8 +72,6 @@ void sll_t_insert( sll_t** head, int val )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_insert_back( sll_t** head, int val )
 {
 	sll_t* new_node = (sll_t*)calloc( 1, sizeof(*new_node) );
@@ -95,8 +94,6 @@ void sll_t_insert_back( sll_t** head, int val )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 int sll_t_remove( sll_t** head, int val )
 {
 	int retv = -1;
@@ -124,8 +121,6 @@ int sll_t_remove( sll_t** head, int val )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_remove_all( sll_t** head )
 {
 	sll_t* tmp = *head;
@@ -141,9 +136,6 @@ void sll_t_remove_all( sll_t** head )
 	*head = tmp;
 }
 
-
-/******************************************************************************
- *****************************************************************************/
 sll_t* sll_t_get_random( sll_t* head, int sz )
 {
 	int i = rand() % sz;
@@ -161,8 +153,6 @@ sll_t* sll_t_get_random( sll_t* head, int sz )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_set_all_randoms( sll_t* head, int sz )
 {
 	sll_t* tmp = head;
@@ -177,8 +167,6 @@ void sll_t_set_all_randoms( sll_t* head, int sz )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_reverse( sll_t** head )
 {
 	sll_t* prev = NULL;
@@ -199,8 +187,6 @@ void sll_t_reverse( sll_t** head )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_deep_copy( sll_t* head )
 {
 	sll_t* copy = NULL;
@@ -249,43 +235,6 @@ void sll_t_deep_copy( sll_t* head )
 	sll_t_print( copy );
 
 	sll_t_remove_all( &copy );
-
-	return;
-}
-
-
-/******************************************************************************
- *****************************************************************************/
-void sll_t_merge( sll_t* a, sll_t* b, sll_t** result )
-{
-	/*while both lists exist*/
-	while( a && b )
-	{
-		if( a->l_item < b->l_item )
-		{
-			sll_t_insert_back( result, a->l_item );
-			a = a->l_next;
-		}
-		else
-		{
-			sll_t_insert_back( result, b->l_item );
-			b = b->l_next;
-		}
-	}
-
-	/*while only a exists*/
-	while( a )
-	{
-		sll_t_insert_back( result, a->l_item );
-		a = a->l_next;
-	}
-
-	/*while only b exists*/
-	while( b )
-	{
-		sll_t_insert_back( result, b->l_item );
-		b = b->l_next;
-	}
 
 	return;
 }

@@ -5,15 +5,11 @@
 #include <string.h>		//memset
 #include <time.h>		//seeding rand()
 #include <limits.h>		//INT_MAX
-#include <iostream>		//cout
 
-using std::cout;
-using std::endl;
 
 /******************************************************************************
-func:
  *****************************************************************************/
-void run_tests( void )
+int main( int argc, char** argv )
 {
 	int i = 0;
 	int j = INT_MAX;
@@ -21,86 +17,50 @@ void run_tests( void )
 
 	srand( time( NULL ) );
 
-	/*run some bit tests*/
-	/*cout << "set rightmost 0->1:" << endl;
-	  for( i = 0; i < 16; i++ )
-	  {
-	  cout << i << ":" << endl;
-	  j = i;
-	  print_bytes_bin( &j, 2 );
-	  cout << endl;
-	  j = set_rightmost_zero_one( i );
-	  print_bytes_bin( &j, 2 );
-	  cout << endl;
-	  cout << endl;
-	  }
+	i = set_bit( i, 0 );
+	i = set_bit( i, 2 );
+	print_bytes_bin( &i, 1 );
+	printf( "\n" );
+	printf( "bit 0: %i\n", test_bit( i, 0 ) );
+	printf( "bit 1: %i\n", test_bit( i, 1 ) );
+	printf( "bit 2: %i\n", test_bit( i, 2 ) );
+	i = clear_bit( i, 0 );
+	i = clear_bit( i, 2 );
+	print_bytes_bin( &i, 1 );
+	printf( "\n" );
 
-	  cout << endl;
-	  cout << "set rightmost 1->0:" << endl;
-	  for( i = 0; i < 16; i++ )
-	  {
-	  cout << i << ":" << endl;
-	  j = i;
-	  print_bytes_bin( &j, 2 );
-	  cout << endl;
-	  j = set_rightmost_one_zero( i );
-	  print_bytes_bin( &j, 2 );
-	  cout << endl;
-	  cout << endl;
-	  }
-
-	  cout << endl;
-	  cout << "bitwise absolute val:" << endl;
-	  for( i = -16; i < 16; i++ )
-	  {
-	  cout << i << ": " << bitwise_abs(i) << endl;
-	  }
-
-	  cout << endl;
-	  cout << "xor swap test: " << endl;
-	  for( i = 0; i < 8; i ++ )
-	  {
-	  j = rand() % 255;
-	  k = rand() % 255;
-
-	  swap_no_temp_var( &j, &k );
-	  cout << endl;
-	  }*/
-	cout << "rounding test:" << endl;
-	for( i = -8; i < 48; i += 5 )
-	{
-		cout << i << ": " << round_down_mul_eight( i ) << ", ";
-		cout << round_up_mul_eight( i )	<< endl;
-	}
-	cout << endl;
-
-	cout << "rounding down power of two test:" << endl;
-	for( i = -8; i < 514; i += 18 )
-	{
-		cout << i << ": " << round_down_power_two( i ) << endl;
-	}
-	cout << endl;
-
-	cout << "rounding up power of two test:" << endl;
-	for( i = -8; i < 514; i += 18 )
-	{
-		cout << i << ": " << round_up_power_two( i ) << endl;
-	}
-	cout << endl;
-
-/*	print_bytes_bin( &j, sizeof(j) );
-	cout << endl;
-	j += 1;
-	print_bytes_bin( &j, sizeof(j) );
-	cout << endl;*/
-
-
-	return;
+	return 0;
 }
 
 
 /******************************************************************************
-func:
+ *****************************************************************************/
+int set_bit( int var, int bit_num )
+{
+	return var |= ( 1 << bit_num );
+}
+
+
+/******************************************************************************
+ *****************************************************************************/
+int clear_bit( int var, int bit_num )
+{
+	return var &= ~( 1 << bit_num );
+}
+
+
+/******************************************************************************
+ *****************************************************************************/
+int test_bit( int var, int bit_num )
+{
+	if( var & ( 1 << bit_num ) )
+		return true;
+	else
+		return false;
+}
+
+
+/******************************************************************************
  *****************************************************************************/
 int set_rightmost_one_zero( int val )
 {
@@ -109,7 +69,6 @@ int set_rightmost_one_zero( int val )
 
 
 /******************************************************************************
-func:
  *****************************************************************************/
 int set_rightmost_zero_one( int val )
 {
@@ -118,7 +77,6 @@ int set_rightmost_zero_one( int val )
 
 
 /******************************************************************************
-func:
  *****************************************************************************/
 int bitwise_abs( int val )
 {

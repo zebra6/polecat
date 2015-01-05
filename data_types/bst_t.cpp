@@ -341,6 +341,7 @@ void bst_t::zero_sink( void )
 	/*use this list to move zeros to the end*/
 	for( i = 0; i < list.size(); i ++ )
 	{
+		/*i moves every time, j moves with existing values*/
 		if( list[i]->n_item )
 			list[j++]->n_item = list[i]->n_item;
 	}

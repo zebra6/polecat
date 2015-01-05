@@ -3,6 +3,9 @@
 /*function prototypes*/
 void run_tests( void );
 
+int set_bit( int var, int bit_num );
+int clear_bit( int var, int bit_num );
+int test_bit( int var, int bit_num );
 int set_rightmost_one_zero( int val );
 int set_rightmost_zero_one( int val );
 int bitwise_abs( int val );

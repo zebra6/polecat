@@ -17,7 +17,6 @@ void sll_t_remove_all( sll_t** head );
 sll_t* sll_t_get_random( sll_t* head, int sz );
 void sll_t_set_all_randoms( sll_t* head, int sz );
 void sll_t_reverse( sll_t** head );
-void sll_t_reverse2( sll_t* head );
 void sll_t_deep_copy( sll_t* head );
-void sll_t_merge( sll_t* a, sll_t* b, sll_t** result );
+
 

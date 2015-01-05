@@ -2,9 +2,14 @@
 #include <stdlib.h>
 #include "sll_t.h"
 
+/*
+   void sll_t_print( sll_t* head );
+   short sll_t_exists( sll_t* head, int val );
+   void sll_t_insert( sll_t** head, int val );
+   int sll_t_remove( sll_t** head, int val );
+   void sll_t_remove_all( sll_t** head );
+ */
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_print( sll_t* head )
 {
 	sll_t* tmp = head;
@@ -35,8 +40,6 @@ void sll_t_print( sll_t* head )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 short sll_t_exists( sll_t* head, int val )
 {
 	while( head )
@@ -51,8 +54,6 @@ short sll_t_exists( sll_t* head, int val )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_insert( sll_t** head, int val )
 {
 	sll_t* new_node = (sll_t*)calloc( 1, sizeof(*new_node) );
@@ -71,8 +72,6 @@ void sll_t_insert( sll_t** head, int val )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_insert_back( sll_t** head, int val )
 {
 	sll_t* new_node = (sll_t*)calloc( 1, sizeof(*new_node) );
@@ -95,8 +94,6 @@ void sll_t_insert_back( sll_t** head, int val )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 int sll_t_remove( sll_t** head, int val )
 {
 	int retv = -1;
@@ -124,8 +121,6 @@ int sll_t_remove( sll_t** head, int val )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_remove_all( sll_t** head )
 {
 	sll_t* tmp = *head;
@@ -141,9 +136,6 @@ void sll_t_remove_all( sll_t** head )
 	*head = tmp;
 }
 
-
-/******************************************************************************
- *****************************************************************************/
 sll_t* sll_t_get_random( sll_t* head, int sz )
 {
 	int i = rand() % sz;
@@ -161,8 +153,6 @@ sll_t* sll_t_get_random( sll_t* head, int sz )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_set_all_randoms( sll_t* head, int sz )
 {
 	sll_t* tmp = head;
@@ -177,8 +167,6 @@ void sll_t_set_all_randoms( sll_t* head, int sz )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_reverse( sll_t** head )
 {
 	sll_t* prev = NULL;
@@ -199,8 +187,6 @@ void sll_t_reverse( sll_t** head )
 }
 
 
-/******************************************************************************
- *****************************************************************************/
 void sll_t_deep_copy( sll_t* head )
 {
 	sll_t* copy = NULL;
@@ -256,36 +242,101 @@ void sll_t_deep_copy( sll_t* head )
 
 /******************************************************************************
  *****************************************************************************/
-void sll_t_merge( sll_t* a, sll_t* b, sll_t** result )
+int sll_t_find_intersection( sll_t* a, sll_t* b )
 {
-	/*while both lists exist*/
-	while( a && b )
+	int i = 0;
+	int retv = -1;
+	sll_t* tmp1 = a;
+	sll_t* tmp2 = b;
+
+	while( tmp1 && retv == -1 )
 	{
-		if( a->l_item < b->l_item )
+		/*reset tmp2 to the head of b*/
+		tmp2 = b;
+		i = 0;
+
+		/*walk through b*/
+		while( tmp2 && retv == -1 )
 		{
-			sll_t_insert_back( result, a->l_item );
-			a = a->l_next;
+			/*check for match*/
+			if( tmp1 == tmp2 )
+			{
+				retv = i;
+				break;
+			}
+
+			/*advance and update the count*/
+			tmp2 = tmp2->l_next;
+			i++;
 		}
-		else
+
+		/*advance and update the count*/
+		tmp1 = tmp1->l_next;
+	}
+
+	return retv;
+}
+
+
+/******************************************************************************
+ *****************************************************************************/
+int sll_t_find_cycle( sll_t* a )
+{
+	int retv = -1;
+	int loc = -1;
+	int num_nodes = 0;
+	sll_t* fast = a;
+	sll_t* slow = a;
+	sll_t* tmp1 = a;
+	sll_t* tmp2 = a;
+
+	/*first find the loop*/
+	while( fast && slow && fast->l_next )
+	{
+		fast = fast->l_next->l_next;
+		slow = slow->l_next;
+
+		if( fast == slow )
 		{
-			sll_t_insert_back( result, b->l_item );
-			b = b->l_next;
+			retv = 1;
+			break;
 		}
 	}
 
-	/*while only a exists*/
-	while( a )
+	/*no loop was found*/
+	if( retv <= 0 )
+		return retv;
+
+	/*now count how many nodes are in the loop*/
+	tmp1 = fast;
+	while( tmp1->l_next != fast )
 	{
-		sll_t_insert_back( result, a->l_item );
-		a = a->l_next;
+		tmp1 = tmp1->l_next;
+		num_nodes++;
 	}
 
-	/*while only b exists*/
-	while( b )
+	retv = num_nodes;
+
+	/*now have another pointer point at the head of the list, and advance it the
+	 * same number of nodes that are in the loop*/
+	while( num_nodes-- )
+		tmp2 = tmp2->l_next;
+
+	/*now advance both pointers until they meet, this will be the starting
+	 * node*/
+	while( tmp1 != tmp2 )
 	{
-		sll_t_insert_back( result, b->l_item );
-		b = b->l_next;
+		tmp1 = tmp1->l_next;
+		tmp2 = tmp2->l_next;
 	}
 
-	return;
+	/*go around one more time to get the tail node (could be removed with
+	 * another pointer in the above loop*/
+	tmp2 = tmp2->l_next;
+	while( tmp2->l_next != tmp1 )
+		tmp2 = tmp2->l_next;
+
+	tmp2->l_next = NULL;
+
+	return retv;
 }
